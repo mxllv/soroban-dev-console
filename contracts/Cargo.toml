@@ -2,13 +2,17 @@
 resolver = "2"
 members = [
   "auth-tester",
+  "event-fixture",
   "error-trigger",
+  "failure-fixture",
   "source-registry",
   "types-tester",
 ]
 default-members = [
   "auth-tester",
+  "event-fixture",
   "error-trigger",
+  "failure-fixture",
   "source-registry",
   "types-tester",
 ]
