@@ -1,19 +1,40 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
-  HttpCode,
-  Param,
   Post,
-  Put,
-  Req,
-  UseGuards,
+  Patch,
+  Param,
+  Body,
+  HttpCode,
+  HttpStatus,
 } from "@nestjs/common";
-import type { Request } from "express";
-import { OwnerKeyGuard } from "../../auth/owner-key.guard.js";
 import { WorkspacesService } from "./workspaces.service.js";
-import { CreateWorkspaceDto, UpdateWorkspaceDto, ImportWorkspaceDto } from "./dto/workspace.dto.js";
+import { CreateWorkspaceDto, UpdateWorkspaceDto } from "./workspace.dto.js";
+
+@Controller("api/workspaces")
+export class WorkspacesController {
+  constructor(private readonly service: WorkspacesService) {}
+
+  @Get()
+  list() {
+    return this.service.list();
+  }
+
+  @Get(":id")
+  findOne(@Param("id") id: string) {
+    return this.service.findById(id);
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  create(@Body() dto: CreateWorkspaceDto) {
+    return this.service.create(dto);
+  }
+
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() dto: UpdateWorkspaceDto) {
+    return this.service.update(id, dto);
+import { Controller, Get } from "@nestjs/common";
 
 @Controller("workspaces")
 @UseGuards(OwnerKeyGuard)
